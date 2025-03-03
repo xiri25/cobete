@@ -19,7 +19,7 @@ typedef struct {
     _Atomic uint8_t* running;
 } main_loop_args_t;
 
-void* main_loop(void* thread_args)
+void* main_loop_thread(void* thread_args)
 {
     main_loop_args_t* args = (main_loop_args_t*)thread_args;
 
@@ -64,7 +64,7 @@ int main(void)
     };
 
     pthread_t sim_thread;
-    assert( pthread_create(&sim_thread, NULL, main_loop, (void*)&thread_args) == 0 );
+    assert( pthread_create(&sim_thread, NULL, main_loop_thread, (void*)&thread_args) == 0 );
 
     getchar();
     atomic_store(&running, 0);
