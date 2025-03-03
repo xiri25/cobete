@@ -1,0 +1,31 @@
+-- friendly reminder git clone --recursive <repo-cobete>
+
+-- Para añadirlo
+git submodule add git@github.com:xiri25/xiri_mathlib.git src/mathlib
+
+-- Un archivo
+.gitmodules
+[submodule "src/mathlib"]
+    path = src/mathlib
+    url = git@github.com:xiri25/xiri_mathlib.git
+
+-- para iniciarlo
+git submodule update --init --recursive
+
+
+-- Después de hacer git pull en cobete
+Si alguien actualizó xiri_mathlib en cobete, necesitás traer esos cambios:
+
+git pull
+git submodule update --recursive
+
+-- Cada vez que xiri_mathlib tenga cambios importantes que querés usar en cobete
+
+    Si xiri_mathlib se actualizó y querés traer esos cambios a cobete, hacé: (GePeTo en latino XD)
+
+cd src/mathlib
+git pull origin main  # O la rama que uses
+cd ../..
+git add src/mathlib
+git commit -m "Actualizado submódulo mathlib"
+git push
