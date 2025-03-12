@@ -60,7 +60,7 @@ void* main_loop_thread(void* thread_args)
                rocket_time);
 
         double remaining_time = target_ms - main_loop_time;
-        printf("remaining_time = %f\n", remaining_time);
+        printf("remaining_time = %fms\n", remaining_time);
         if( remaining_time > 0.0 )
         {
             //usleep((unsigned int)remaining_time);
