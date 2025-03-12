@@ -25,7 +25,7 @@ void physics_loop(const uint8_t iter, Rocket_t* rocket_state, const double dt)
         vec2_sum_in_place(&rocket_state->v, &v_delta);
         vec2 x_delta = vec2_scale(&rocket_state->v, dt);
         vec2_sum_in_place(&rocket_state->x, &x_delta);
-        rocket_state->m_fuel -= 1.0;
+        rocket_state->m_fuel -= 1.0;  // This should be done by the rocket_loop
     }
     return;
 }
