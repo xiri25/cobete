@@ -1,4 +1,3 @@
-#include <bits/time.h>
 #include <stdio.h>
 #include <stdatomic.h>
 #include <pthread.h>
