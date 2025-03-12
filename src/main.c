@@ -23,17 +23,31 @@ void* main_loop_thread(void* thread_args)
 {
     main_loop_args_t* args = (main_loop_args_t*)thread_args;
 
+    uint8_t target_fps = 1;
+    double target_ms = 1000.0 / target_fps;
+
+    // TODO: A function to do this would be better
+    Rocket_t rocket_state = {
+        .x = {.e1 = 0, .e2 = 0},
+        .v = {.e1 = 0, .e2 = 0},
+        .f = {.e1 = 0, .e2 = 0},
+        .m_fuel = 100.0,
+        .m_empty = 10.0,
+    };
+    uint8_t physics_iterations = MODE_IDLE_TIME; // For now
+    RocketMode_t mode = MODE_IDLE;
+
     while(atomic_load(args->running))
     {
-        uint8_t physics_iterations = 1; // For now
+        rocket_print_state(&rocket_state);
 
         double begin_loop = time_now_ms();
 
-        physics_loop(physics_iterations);
+        physics_loop(physics_iterations, &rocket_state, 0.1);
 
         double end_physics = time_now_ms();
 
-        rocket_loop();
+        rocket_loop(&physics_iterations, &rocket_state, &mode);
 
         double end_loop = time_now_ms();
         double physics_time = end_physics - begin_loop;
@@ -44,6 +58,22 @@ void* main_loop_thread(void* thread_args)
                physics_time,
                physics_iterations,
                rocket_time);
+
+        double remaining_time = target_ms - main_loop_time;
+        printf("remaining_time = %f\n", remaining_time);
+        if( remaining_time > 0.0 )
+        {
+            //usleep((unsigned int)remaining_time);
+            double remaining_time_ns = remaining_time * 1000000;
+            struct timespec timespec = {
+                .tv_sec = 0,
+                .tv_nsec = remaining_time_ns,
+            };
+            nanosleep(&timespec, NULL);
+        } else {
+            printf("%fms longer thant target\n", remaining_time);
+        }
+        printf("\n");
     }
 
     if(atomic_load(args->running))

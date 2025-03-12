@@ -1,9 +1,10 @@
 CC=gcc
 CFLAGS=-Wall -Wextra
-LDFLAGS=-lpthread -g
+LDFLAGS=-lpthread -g -lm
 SRC_FILES=src/main.c \
 		  src/physics/physics.c \
-		  src/rocket/rocket.c
+		  src/rocket/rocket.c \
+		  src/mathlib/src/mathlib/vec2.c
 
 .PHONY: all clean
 
