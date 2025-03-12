@@ -1,3 +1,4 @@
+#include <bits/time.h>
 #include <stdio.h>
 #include <stdatomic.h>
 #include <pthread.h>
@@ -11,7 +12,7 @@
 #define UNO_K_MILLONES 1000000000.0
 double time_now_ms(void) {
   struct timespec current_time;
-  clock_gettime(CLOCK_REALTIME, &current_time);
+  clock_gettime(CLOCK_MONOTONIC_RAW, &current_time);
   return current_time.tv_sec + (current_time.tv_nsec / UNO_K_MILLONES) * 1000;
 }
 
