@@ -30,7 +30,11 @@ void* main_loop_thread(void* thread_args)
     Rocket_t rocket_state = {
         .x = {.e1 = 0, .e2 = 0},
         .v = {.e1 = 0, .e2 = 0},
-        .f = {.e1 = 0, .e2 = 0},
+        .p = {.e1 = 1, .e2 = 1},
+        .Ae = 1.0,
+        .ve = 100.0,
+        .pe = 100.0,
+        .m_dot = 20.0,
         .m_fuel = 100.0,
         .m_empty = 10.0,
     };
@@ -43,7 +47,7 @@ void* main_loop_thread(void* thread_args)
 
         double begin_loop = time_now_ms();
 
-        physics_loop(physics_iterations, &rocket_state, 0.1);
+        physics_loop(args->running, physics_iterations, &rocket_state, 0.1);
 
         double end_physics = time_now_ms();
 
@@ -80,6 +84,7 @@ void* main_loop_thread(void* thread_args)
     {
         // Si el bucle sale por lo que sea, dejar de correr
         atomic_store(args->running, 0);
+        assert( NULL ); // Unrecheable
     }
 
     return (void*)NULL;
@@ -96,8 +101,12 @@ int main(void)
     pthread_t sim_thread;
     assert( pthread_create(&sim_thread, NULL, main_loop_thread, (void*)&thread_args) == 0 );
 
-    getchar();
-    atomic_store(&running, 0);
+    if(atomic_load(&running)) /* TODO: Move this out of the main thread, for the main thread to not be blocking
+                                       maybe change for scanf */
+    {
+        getchar();
+        atomic_store(&running, 0);
+    }
 
     // TODO: Wake up any thread before joining, if there is lock or conds to wait
 

@@ -7,7 +7,11 @@
 typedef struct {
     vec2 x; /* Posicion */
     vec2 v; /* Velocity */
-    vec2 f; /* Force of engines */
+    vec2 p; /* Pointing towards vector */
+    double m_dot; /* Mass flow rate  */
+    double Ae; /* Exhaust area */
+    double ve; /* Exhaust Velocity */
+    double pe; /* Exhaust Pressure  TODO:Area has smthing to do with this */
     double m_empty;
     double m_fuel;
 } Rocket_t;

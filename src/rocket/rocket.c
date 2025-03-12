@@ -29,7 +29,7 @@ void rocket_print_state(const Rocket_t* rocket)
     printf("Rocket State:\n");
     printf("    pos = (%f, %f)\n", rocket->x.e1, rocket->x.e2);
     printf("    vel = (%f, %f)\n", rocket->v.e1, rocket->v.e2);
-    printf("    fmo = (%f, %f)\n", rocket->f.e1, rocket->f.e2);
+    printf("    pointing = (%f, %f)\n", rocket->p.e1, rocket->p.e2);
     printf("    m_fuel = %f\n", rocket->m_fuel);
     printf("    m_empty = %f\n", rocket->m_empty);
 }
